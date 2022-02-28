@@ -3,6 +3,43 @@
   padding: 0;
 }
 
-.board {
+body {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  max-width: 800px;
+  width: 50%;
+  margin: auto;
+}
 
+.names {
+  margin: 16px auto;
+}
+
+.names > div:first-of-type {
+  margin: 16px auto;
+}
+
+.info {
+  margin: 16px auto;
+}
+
+.board {
+  width: min-content;
+  margin: auto;
+  display: grid;
+  background-color: black;
+  justify-content: center;
+  grid-template: repeat(3, 64px) / repeat(3, 64px);
+  gap: 2px;
+}
+
+.board > button {
+  width: 100%;
+  background-color: white;
+  border: none;
+}
+
+.reset {
+  margin: 16px auto;
 }
