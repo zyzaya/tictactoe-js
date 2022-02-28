@@ -12,8 +12,17 @@ body {
   margin: auto;
 }
 
+h1 {
+  margin: auto;
+}
+
 .names {
   margin: 16px auto;
+}
+
+.names > div {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .names > div:first-of-type {
@@ -38,6 +47,10 @@ body {
   width: 100%;
   background-color: white;
   border: none;
+}
+
+.board > button:hover {
+  background-color: aliceblue;
 }
 
 .reset {
