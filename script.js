@@ -3,35 +3,53 @@ const Player = (name, icon) => {
   return {name, getIcon};
 };
 
-const Cell = (div) => {
-  display = "";
-  let button = div.appendChild(document.createElement("button"));
-
-  const getDisplay = () => { return display };
-  const setDisplay = (text) => {
-    button.textContent = text;
+const Cell = (col, row, div, onclick) => {
+  let cell = { col, row }
+  cell.display = "";
+  cell.button = div.appendChild(document.createElement("button"));
+  cell.button.onclick = onclick
+  cell.getDisplay = () => { return display };
+  cell.setDisplay = (text) => {
+    cell.button.textContent = text;
   };
-  return { getDisplay, setDisplay };
+  return cell;
 };
 
-const Board = ((div) => {
-  let board = new Array(3).fill(new Array(3).fill(Cell(div)));
+const Board = (() => {
+  let div = document.getElementById("board");
+  let board = new Array(3).fill(new Array(3).fill(0));
+
   const onBoard = (col, row) => {
     return col >= 0 && col <= 2 && row >= 0 && row <= 2;
-  };
-  const play = (col, row, player) => {
-    if (!onBoard(col, row)) {
+  }
 
-    } else if (board[col][row] != null) {
-
+  const play = (col, row) => {
+    console.log(`Col: ${col}, Row: ${row}`)
+    if (onBoard(col, row)) {
+      board[col][row].setDisplay(current.getIcon());
+      return true;
     } else {
-      board[row][col].setDisplay(player.getIcon());
-      updateDisplay();
-      nextTurn();
+      return false;
     }
   };
-  return {
-    play
-  };
+
+  const reset = () => {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        board[col][row].setDisplay("");
+      }
+    }
+  }
+
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      board[col][row] = Cell(col, row, div, play.bind(this, col, row))
+    }
+  }
+  return { play, reset };
 })();
 
+const Game = (() => {
+  let info = document.getElementById("info");
+
+})()
