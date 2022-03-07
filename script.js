@@ -98,8 +98,11 @@ const Game = (() => {
 
   const play = (col, row) => {
     if (board.setCell(col, row, current.getIcon())) {
-      // nextTurn();
-      console.log(board.isWinner(col, row))
+      if (board.isWinner(col, row)) {
+        info.textContent = `${current.name} wins!`
+      } else {
+        nextTurn();
+      }
     }
   }
   
