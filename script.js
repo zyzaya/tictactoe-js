@@ -1,12 +1,14 @@
 const Player = (container, name, icon) => {
   let player = {}
+  
   player.getIcon = () => { return icon };
+  
   player.setName = (name) => {
     player.name = name
     label.textContent = `${name} (${player.getIcon()})`
     button.textContent = `Change ${name}'s name`
   }
-  
+
   let label = container.appendChild(document.createElement("label"));
   label.for = name
   label.textContent = `${name} (${icon})`
@@ -20,6 +22,7 @@ const Player = (container, name, icon) => {
   button.onclick = () => {
     player.setName(input.value)
   }
+  player.setName(name);
   return player;
 };
 
@@ -109,10 +112,12 @@ const Game = (() => {
   const reset = () => {
     board.reset();
     current = p1;
+    info.textContent = `${p1.name}'s turn`
   }
   
   const nextTurn = () => {
     current = current == p1 ? p2 : p1;
+    info.textContent = `${current.name}'s turn`
   }
 
   const play = (col, row) => {
@@ -132,14 +137,7 @@ const Game = (() => {
   let container = document.getElementById("board");
   let info = document.getElementById("info");
   let board = Board(container, play);
-  
-  // document.getElementById("reset").onclick = reset
-  // p1Name = document.getElementById("p1")
-  // p2Name = document.getElementById("p2")
-  // document.getElementById("changePlayer1Name").onclick = () => {
-  //   p1.name = p1Name.value;
-  // }
-  // document.getElementById("changePlayer2Name").onclick = () => { p2.name = p2Name.value; }
-  return { play, reset }
+  reset();
+  return { play, reset, p1 }
 })()
 
