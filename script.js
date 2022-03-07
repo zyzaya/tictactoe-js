@@ -48,12 +48,30 @@ const Board = (container, play) => {
     })
   }
 
+  const checkDiagonalForWinner = (value) => {
+    for (let i = 0; i <= 2; i++) {
+      if (board[i][i].getDisplay() !== value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const checkReverseDiagonalForWinner = (value) => {
+    for (let i = 0; i <= 2; i++) {
+      if (board[i][2 - i].getDisplay() !== value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   const isWinner = (col, row) => {
     let value = board[col][row].getDisplay()
-    // return checkColumnForWinner(col, value);
-    return checkRowForWinner(row, value);
-    // checkDiagonalForWinner(col, row);
-    // checkReverseDiagonalForWinner(col, row);
+    return checkColumnForWinner(col, value) 
+      || checkRowForWinner(row, value)
+      || checkDiagonalForWinner(value)
+      || checkReverseDiagonalForWinner(value);
   }
 
   const reset = () => {
@@ -81,9 +99,7 @@ const Game = (() => {
   const play = (col, row) => {
     if (board.setCell(col, row, current.getIcon())) {
       // nextTurn();
-      if (board.isWinner(col, row)) {
-        console.log("winner")
-      }
+      console.log(board.isWinner(col, row))
     }
   }
   
