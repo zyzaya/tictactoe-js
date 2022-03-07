@@ -17,18 +17,40 @@ const Cell = (col, row, div, onclick) => {
 const Board = (container, play) => {
   let board = new Array(3).fill(0).map(() => new Array(3).fill(0))
 
+  let WIN = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
+  ]
+
   const onBoard = (col, row) => {
     return col >= 0 && col <= 2 && row >= 0 && row <= 2;
   }
 
   const setCell = (col, row, value) => {
-    if (onBoard(col, row)) {
+    if (onBoard(col, row) && board[col][row].getDisplay() == "") {
       board[col][row].setDisplay(value);
       return true;
     } else {
       return false;
     }
   };
+
+  const checkColumnForWinner = (col, value) => {
+    console.log(board[col])
+    return board[col].every((e) => {
+      console.log(`D: ${e.getDisplay()}, V: ${value}, D===V: ${e.getDisplay() === value}`)
+      return e.getDisplay() === value
+    })
+  }
+
+  const isWinner = (col, row) => {
+    let value = board[col][row].getDisplay()
+    return checkColumnForWinner(col, value);
+    // checkRowsForWinner(col, row);
+    // checkDiagonalForWinner(col, row);
+    // checkReverseDiagonalForWinner(col, row);
+  }
 
   const reset = () => {
     for (let row = 0; row < board.length; row++) {
@@ -38,19 +60,27 @@ const Board = (container, play) => {
     }
   }
 
-  for (let col = 0; col < board.length; col++) {
-    for (let row = 0; row < board[col].length; row++) {
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
       board[col][row] = Cell(col, row, container, play);
     }
   }
   
-  return { setCell, reset };
+  return { setCell, reset, isWinner };
 };
 
 const Game = (() => {
-  const play = (col, row) => {
-    board.setCell(col, row, current.getIcon());
+  const nextTurn = () => {
     current = current == p1 ? p2 : p1;
+  }
+
+  const play = (col, row) => {
+    if (board.setCell(col, row, current.getIcon())) {
+      // nextTurn();
+      if (board.isWinner(col, row)) {
+        console.log("winner")
+      }
+    }
   }
   
   let p1 = Player('player 1', 'X');
