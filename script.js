@@ -1,6 +1,26 @@
-const Player = (name, icon) => {
-  const getIcon = () => { return icon };
-  return {name, getIcon};
+const Player = (container, name, icon) => {
+  let player = {}
+  player.getIcon = () => { return icon };
+  player.setName = (name) => {
+    player.name = name
+    label.textContent = `${name} (${player.getIcon()})`
+    button.textContent = `Change ${name}'s name`
+  }
+  
+  let label = container.appendChild(document.createElement("label"));
+  label.for = name
+  label.textContent = `${name} (${icon})`
+  let input = container.appendChild(document.createElement("input"));
+  input.type = 'text';
+  input.name = name;
+  input.id = name;
+  let button = container.appendChild(document.createElement("button"))
+  button.textContent = `Change ${name}'s name`
+  
+  button.onclick = () => {
+    player.setName(input.value)
+  }
+  return player;
 };
 
 const Cell = (col, row, div, onclick) => {
@@ -16,12 +36,6 @@ const Cell = (col, row, div, onclick) => {
 
 const Board = (container, play) => {
   let board = new Array(3).fill(0).map(() => new Array(3).fill(0))
-
-  let WIN = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8],
-    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-    [0, 4, 8], [2, 4, 6]
-  ]
 
   const onBoard = (col, row) => {
     return col >= 0 && col <= 2 && row >= 0 && row <= 2;
@@ -111,13 +125,21 @@ const Game = (() => {
     }
   }
   
-  let p1 = Player('player 1', 'X');
-  let p2 = Player('player 2', 'O');
+
+  let p1 = Player(document.getElementById('p1Name'), 'player1', 'X');
+  let p2 = Player(document.getElementById('p2Name'), 'player2', 'O');
   let current = p1;
   let container = document.getElementById("board");
   let info = document.getElementById("info");
   let board = Board(container, play);
+  
+  // document.getElementById("reset").onclick = reset
+  // p1Name = document.getElementById("p1")
+  // p2Name = document.getElementById("p2")
+  // document.getElementById("changePlayer1Name").onclick = () => {
+  //   p1.name = p1Name.value;
+  // }
+  // document.getElementById("changePlayer2Name").onclick = () => { p2.name = p2Name.value; }
   return { play, reset }
 })()
 
-document.getElementById("reset").onclick = Game.reset
