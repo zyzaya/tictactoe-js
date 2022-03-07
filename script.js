@@ -92,6 +92,11 @@ const Board = (container, play) => {
 };
 
 const Game = (() => {
+  const reset = () => {
+    board.reset();
+    current = p1;
+  }
+  
   const nextTurn = () => {
     current = current == p1 ? p2 : p1;
   }
@@ -112,5 +117,7 @@ const Game = (() => {
   let container = document.getElementById("board");
   let info = document.getElementById("info");
   let board = Board(container, play);
-  return { play }
+  return { play, reset }
 })()
+
+document.getElementById("reset").onclick = Game.reset
