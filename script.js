@@ -4,9 +4,9 @@ const Player = (name, icon) => {
 };
 
 const Cell = (col, row, div, onclick) => {
-  let cell = { col, row }
+  let cell = { col, row };
   cell.button = div.appendChild(document.createElement("button"));
-  cell.button.onclick = onclick.bind(null, col, row)
+  cell.button.onclick = onclick.bind(null, col, row);
   cell.getDisplay = () => { return cell.button.textContent };
   cell.setDisplay = (text) => {
     cell.button.textContent = text;
@@ -40,7 +40,7 @@ const Board = (container, play) => {
 
   for (let col = 0; col < board.length; col++) {
     for (let row = 0; row < board[col].length; row++) {
-      board[col][row] = Cell(col, row, container, play) 
+      board[col][row] = Cell(col, row, container, play);
     }
   }
   
@@ -49,9 +49,13 @@ const Board = (container, play) => {
 
 const Game = (() => {
   const play = (col, row) => {
-    board.setCell(col, row, "x")
+    board.setCell(col, row, current.getIcon());
+    current = current == p1 ? p2 : p1;
   }
   
+  let p1 = Player('player 1', 'X');
+  let p2 = Player('player 2', 'O');
+  let current = p1;
   let container = document.getElementById("board");
   let info = document.getElementById("info");
   let board = Board(container, play);
