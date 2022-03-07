@@ -37,17 +37,21 @@ const Board = (container, play) => {
   };
 
   const checkColumnForWinner = (col, value) => {
-    console.log(board[col])
     return board[col].every((e) => {
-      console.log(`D: ${e.getDisplay()}, V: ${value}, D===V: ${e.getDisplay() === value}`)
-      return e.getDisplay() === value
+      return e.getDisplay() === value;
+    })
+  }
+
+  const checkRowForWinner = (row, value) => {
+    return board.every((col) => {
+      return col[row].getDisplay() == value;
     })
   }
 
   const isWinner = (col, row) => {
     let value = board[col][row].getDisplay()
-    return checkColumnForWinner(col, value);
-    // checkRowsForWinner(col, row);
+    // return checkColumnForWinner(col, value);
+    return checkRowForWinner(row, value);
     // checkDiagonalForWinner(col, row);
     // checkReverseDiagonalForWinner(col, row);
   }
