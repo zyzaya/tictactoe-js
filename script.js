@@ -91,6 +91,17 @@ const Board = (container, play) => {
       || checkReverseDiagonalForWinner(value);
   }
 
+  const isFilled = () => {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (board[col][row].getDisplay() === '') {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   const reset = () => {
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -105,7 +116,7 @@ const Board = (container, play) => {
     }
   }
   
-  return { setCell, reset, isWinner };
+  return { setCell, reset, isWinner, isFilled };
 };
 
 const Game = (() => {
@@ -124,6 +135,8 @@ const Game = (() => {
     if (board.setCell(col, row, current.getIcon())) {
       if (board.isWinner(col, row)) {
         info.textContent = `${current.name} wins!`
+      } else if (board.isFilled()) {
+        info.textContent = `Tied. Nobody wins.`
       } else {
         nextTurn();
       }
