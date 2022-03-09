@@ -150,6 +150,7 @@ const Game = (() => {
   let container = document.getElementById("board");
   let info = document.getElementById("info");
   let board = Board(container, play);
+  document.getElementById('reset').onclick = reset;
   reset();
   return { play, reset, p1 }
 })()
