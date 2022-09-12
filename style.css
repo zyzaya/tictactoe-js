@@ -45,6 +45,7 @@ h1 {
 
 .board > button {
   width: 100%;
+  font-size: xx-large;
   background-color: white;
   border: none;
 }
